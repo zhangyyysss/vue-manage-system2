@@ -1,0 +1,588 @@
+
+1.电商后台管理系统用于管理用户账号,商品分类,商品信息,订单,数据统计等业务功能
+
+
+前两个项目都是使用脚手2来做的 
+第一个项目supermall是脚手架3的的 创建是 vue create 项目名称  脚手架3中默认有"@vue/cli-plugin-babel": "^4.5.0"
+第二个项目vue-music 是脚手架2 创建的 vue init webpack 项目名称
+
+https://www.jianshu.com/p/636948659218 查看Vue的版本和Vue/CLI的版本
+
+npm run -g vue-cli 安装完毕 2.0脚手架后
+vue init webpeck vue-project 基于vue2.0的和脚手架2安装
+
+我们这里使用脚手架3vue-cli 创建vue2.0项目,所以 vue --version或者 vue -V 可以看到我们脚手架版本是3.2.1
+
+我们使用vue create 项目名字     项目名字不能包含大写符号,等等.......规则
+然后我们在packjson.js 装上我们想要安装的东西
+
+vue create mangage-stystem
+
+
+我们在一开始可以使用space 空格来选择babel ,css-loader ,eslint,是否单元测试,还有webpp(pwa),还有一些我们需要的router路由,vuex,都可以直接安装了,回车继续
+
+
+? Please pick a preset: Manually select features
+? Check the features needed for your project: Babel, Router, Vuex, CSS Pre-processors, Linter
+? Use history mode for router? (Requires proper server setup for index fallback in production) Yes
+? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Stylus
+? Pick a linter / formatter config: Standard
+? Pick additional lint features: (Press <space> to select, <a> to toggle all, <i> to invert selection)Lint on save
+? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In dedicated config files
+? Save this as a preset for future projects? No
+
+
+配置Element-UI 具体看官网介绍吧~~~~~~~~都有介绍
+配置axios 记得是运行时依赖
+配置路由,这个在创建项目已经选上了
+
+
+
+方法1:
+首先呢?我们本地创建好工作区之后,
+之前学习的是现在github上面进行创建一个空的项目,new respository,只需要一个名字vue-manage-system创建就好了,readme也不需要
+Git全局设置(设置本地git的名字(这个名字和github,gitee无关)和邮箱):
+git config --global user.name "zys"
+git config --global user.email	"690313615@qq.com"
+
+(不推荐使用,好复杂)
+如果说本地完全没有项目,我们可以创建一个新的仓库来保存这个项目
+那么我们执行下面(大概意思是我们初始化本地文件夹的git,和github链接起来)
+…or create a new repository on the command line
+echo "# vue-manage-system" >> README.md
+git init							(初始化本地git)
+git add README.md 					(git添加readme.md)
+git commit -m "first commit"		(提交到暂存区)
+git branch -M main					(建立主分支)
+git remote add origin https://github.com/zhangyyysss/vue-manage-system.git   (输入远程仓库地址)
+git push -u origin main													(与远程仓库链接起来)
+
+
+(推荐使用,现在github或者gitee创建一个空的仓库)
+如果说本地已经创建好一个工作区了,那么我们把这个已经存在cd到工作区内容git add . git commit -m "first" 传达本地仓库,再push进github中
+…or push an existing repository from the command line
+git remote add origin https://github.com/zhangyyysss/vue-manage-system.git
+git branch -M main
+git push -u origin main
+
+
+我们可以使用git status 查看项目git状态(看看有没有还可以add到暂存区的内容)
+此时可能会有一个数据还在本地git,我们可以 git add . (有空格)我们放在暂存区
+git commit -m "first" ,上传到本地仓库
+再首次一定要运行下面的代码,建立第一次链接(过后可以是用push到github或者码云了)
+git remote add origin https://github.com/zhangyyysss/vue-manage-system.git(本地仓库和远程仓库的地址)
+git push -u origin main (远程仓库和本地仓库做关联)
+
+
+
+我们可以在webstorm中创建好本地项目,点击VCS -> 导入版本控制 -> share project on Github
+就可以自动化的在github创建一个仓库,并且把当前项目初始化上传
+
+
+遇到的问题:
+在git.bash中使用 ssh-keygen -t rsa -C "xxxxx@xxxxx.com"  生成公钥
+在C:\Users\zys\.ssh\id_rsa.pub复制粘贴到网站上有设置ssh的地方粘贴就可以额
+
+我遇到了ssh的问题,什么公钥,私匙....ssh key的作用相当于一个身份认证工具,公匙存放在github上,私匙相当于每一个台电脑,只有完全对应的上的才能使用git clone的功能,在哪里呢?C:\Users\zys\.ssh\id_rsa.pub ,把里面的内容复制,粘贴到网站上有设置ssh的地方粘贴就可以额
+我是用码云和github都是一个公钥,不知道会不会有什么问题
+密码是 5O
+
+id_rsa.pub是公钥 id_rsa是私钥
+
+操作完毕之后......
+
+因为之前设置过公钥,所以这次直接拿过来一起用了,不知道会不会有什么问题~github和gitee可以用一个公匙吗???????
+
+怎么测试公钥能不能载github和gitee上使用呢?
+
+ssh -T git@gitee.com
+ssh -T git@github.com
+
+两个都可以使用了~~~~~~~~~~~~~~
+
+
+后台项目的环境安装配置
+1.安装MySQl数据库
+我们安装phpStudy 2018.启动就可以了,我们可以把apache关掉,因为用不上
+
+导入我们下载的数据库文件 mydb.sql 就是导入一个数据库,里面有一些api
+
+
+我们跑起来这个服务端,然后使用Postman看看我们后台接口是否正常
+
+其实就是一起跑音乐项目b大神的接口的意思是一样的,
+
+node app.js 跑服务接口
+
+postman 看接口数据是否正确
+
+我们跑起服务之后,就可以在postman中看看各个接口是否运行正常
+
+postman 可以选择什么请求方式,post/get 完整url地址 http://127.0.0.1:8888/api/private/v1/login
+
+在body中填写相对应的参数后,
+选择 x-www-form-urlencoded 普通文本形式
+例如 username admin 键值对的形式
+	password 123456 键值对的形式
+
+	按send,就可以在下面看到返回的内容
+
+
+{
+    "data": {
+        "id": 500,
+        "rid": 0,
+        "username": "admin",
+        "mobile": "12345678",
+        "email": "adsfad@qq.com",
+        "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE2MDkwOTQwMjYsImV4cCI6MTYwOTE4MDQyNn0.M0rbi0PeRtxEkW7-KIBIHcGpHBpfrLi4l9EuRXRnWFI"
+    },
+    "meta": {
+        "msg": "登录成功",
+        "status": 200
+    }
+}
+
+可以看到有状态码200,显示msg和 一些用户信息和token,token是用来用户登陆状态保存的.sesion一样的,保存客户登陆信息
+
+登陆业务流程
+输入登陆页面的输入用户名和密码
+调用后台接口进行验证
+通过验证之后,根据后台的响应状态跳转到项目主页
+
+
+登陆业务的相关技术点
+http 是无状态的
+通过cookie 在客户端记录状态
+通过session 在服务端记录状态
+通过token方式维护状态
+
+如果说客户端和接口不存在跨域问题,建议使用cookie和session记录登陆状态
+反之,有跨域问题,需要使用token维持状态
+
+登陆 -token原理
+
+
+
+
+
+
+
+	客户端          -> 登陆页面输入用户名和密码进行登陆  ->     							服务器
+					<- 服务器验证通过后生成该用户的tiken返回 <-
+			客户端存储该token
+
+			       ->  后续请求都要携带该token发送请求   -> 
+			       									服务器端验证token是否通过
+			       					<-通过返回该客户的请求数据<-
+
+
+通过Element-UI组件实现布局
+
+el-form
+el-form-item
+el-input
+el-button
+字体图标
+
+我们开发前可以先看看git status 看看工作区有没有修改之前或者无意中修改的代码没有处理
+
+我们建议在开发现新功能的时候,在一个新的分支上面开发,开发完毕后再合并的主分支内
+
+git checkout -b login
+
+(Switched to a new branch 'login')  (提示已经创建一个子分支了并且切换到子分支了)
+
+我们怎么看项目中的分支结构呢?git branch
+
+git branch
+
+(* login
+  master) ( *号代表我们当前在处于这个分支下,master代表我们从master切到login分支)
+
+
+我们可以看到vue-cli3 脚手架创建的项目的router的区别,名字起名是VueRouter,没有别的区别
+
+我们的eslintrc.js 的 eslint规则也是有变化的,为了和以前的代码统一风格,所以我们还是使用之前的eslint
+
+
+// https://eslint.org/docs/user-guide/configuring
+
+module.exports = {
+  root: true,
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  env: {
+    browser: true,
+  },
+  extends: [
+    // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
+    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
+    'plugin:vue/essential',
+    // https://github.com/standard/standard/blob/master/docs/RULES-en.md
+    'standard'
+  ],
+  // required to lint *.vue files
+  plugins: [
+    'vue'
+  ],
+  // add your custom rules here
+  rules: {
+    // allow async-await
+    'generator-star-spacing': 'off',
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    //文件末尾不为空行
+    'eol-last': 0,
+    //function左括号(可以没空格
+    "space-before-function-paren": 0,
+    //数字2表示同意缩进2个空格,数字1表示1倍缩进
+    'vue/script-indent': ['error', 2, {'baseIndent': 1}]
+  },
+  overrides:[
+    {
+      'files':['*.vue'],
+      'rules':{
+        'indent':'off'
+      }
+    }
+  ]
+}
+
+module.exports = {
+  root: true,
+  env: {
+    node: true
+  },
+  extends: [
+    'plugin:vue/essential',
+    '@vue/standard'
+  ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+  }
+}
+
+
+我们对比后发现有区别,
+
+env :  一个环境是node, 一个环境是浏览器???
+
+extends : 一个是'standard',一个是 '@vue/standard'
+
+plugins: ['vue'], 后者不需要?
+
+具体可以看eslinttr.有一个网站,里面有写清楚什么的作用~~~~~~~~~
+
+我们使用了vue-music的eslint
+
+还有因为vue-cli3.0脚手架没有webpack设置了
+
+我们可以在根目录下创建了一个vue.config.js 来设置别名和接口啥的...........
+
+module.exports = {
+  //别名配置
+  configureWebpack: {
+    resolve: {
+      alias: {
+        'assets': '@/assets',
+        'common': '@/common',
+        'components': '@/components',
+        'views': '@/views',
+        'api': '@/api'
+      }
+    }
+  }
+}
+
+我们想在main.js引入基础样式,发现普通的css可以正常引入,但是stylu这个格式不行,之前不是vue-cli脚手架的时候设置了使用stylus吗
+而且在package.json中我们也
+
+"stylus": "^0.54.7",
+"stylus-loader": "^3.0.2",
+
+但是报错(因为这些适用于css中识别stylus,我现在想在main.js中引入,可能就识别不了?)
+
+* ../fonts/music-icon.eot?2qevqt in ./node_modules/css-loader/dist/cjs.js??ref--11-oneOf-3-1!./node_modules/postcss-loader/src??ref--11-oneOf-3-2!./node
+_modules/stylus-loader??ref--11-oneOf-3-3!./src/assets/css/index.styl
+
+
+好像这样也不行,那么我们需要配置吗???是这样的吗?main.js不能全局导入这些基础样式?icon.styl ,reset.styl base.styl
+
+最后解决了,不是配置的问题,是我一开始没有放入font文件夹,所以导入index.styl需要又有icon.styl需要字体文件夹,所以报错了?
+
+所以说脚手架3在配置时候已经搞定了 stylus格式的事情了,可以正常使用的
+不需要像脚手架2还需要配置loader
+
+
+我们封装了一个通用的axios,非常好用,
+/**
+ * axios封装
+ * 请求拦截、响应拦截、错误统一处理
+ */
+import axios from 'axios'
+import router from '../../router'
+import store from '../../store'
+import { Message } from 'element-ui'
+
+/**
+ * 提示函数
+ * 禁止点击蒙层、显示一秒后关闭
+ */
+
+const tip = msg => {
+  Message({
+    message: msg
+  })
+}
+
+/**
+ * 跳转登录页
+ * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
+ */
+const toLogin = () => {
+  router.replace({
+    path: '/login',
+    query: {
+      // 将路由的旧的route的fullPath保存下来,进去/login页面,后面重定向到老页面
+      redirect: router.currentRoute.fullPath
+    }
+  })
+}
+
+/**
+ * 请求失败后的错误统一处理
+ * @param {Number} status 请求失败的状态码
+ */
+
+const errorHandle = (status, other) => {
+  // 状态码判断
+  switch (status) {
+    // 401: 未登录状态，跳转登录页
+    case 401:
+      toLogin()
+      break
+    // 403 token过期
+    // 清除token并跳转登录页
+    case 403:
+      tip('登录过期，请重新登录')
+      localStorage.removeItem('token')
+      store.commit('loginSuccess', null)
+      setTimeout(() => {
+        toLogin()
+      }, 1000)
+      break
+    // 404请求不存在
+    case 404:
+      tip('请求的资源不存在')
+      break
+    default:
+      console.log(other)
+  }
+}
+
+// 创建axios实例
+var instance = axios.create({
+  timeout: 1000 * 12
+})
+
+// 设置post请求头
+// Content-Type 指定设置为application/x-www-form-urlencoded
+// 其次,提交的数据按照key1=val&key2=val2,key和val都进行了URL转码
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
+/**
+ * 请求拦截器
+ * 每次请求前，如果存在token则在请求头中携带token
+ */
+
+instance.interceptors.request.use(config => {
+  // 登录流程控制中，根据本地是否存在token判断用户的登录情况
+  // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
+  // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
+  // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作
+  const token = store.state.token
+  // 本地存在用户token的时候,请求头中携带该token
+  token && (config.headers.Authorization = token)
+  return config
+},
+error => Promise.error(error))
+
+/**
+ * 响应拦截器
+ */
+instance.interceptors.response.use(
+  res => {
+    res.status === 200 ? Promise.resolve(res) : Promise.reject(res)
+    return res
+  },
+  // 请求失败
+  error => {
+    const { response } = error
+    if (response) {
+      // 请求已发出，但是不在2xx的范围
+      errorHandle(response.status, response.data.message)
+      return Promise.reject(response)
+    } else {
+      // 处理断网的情况
+      // eg:请求超时或断网时，更新state的network状态
+      // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
+      // 关于断网组件中的刷新重新获取数据，会在断网组件中说明
+      if (!window.navigator.onLine) {
+        store.commit('changeNetwork', false)
+      } else {
+        return Promise.reject(error)
+      }
+    }
+  })
+
+// 导出instance对象
+export default instance
+
+还有api管理和baseapi的管理,具体可以看网址
+https://juejin.cn/post/6844903652881072141
+
+我们开始制作login.vue组件把~~~~~~因为都挺简单的,没有什么逻辑,~
+那我直接上代码了,
+// 1,将登陆成功之后的token,保存到客户端的sessionStorage(会话中,关掉就没了)中,(也可以存放到localStorage 持续化的,cookie)
+//  1.1 项目中除了登陆接口以外的API接口,必须在登陆之后才能访问
+//  1.2 token值应该在当前网站打开时候生效,所我们选择使用token保存在 sessionStorage中
+// 2.通过编程式导航跳转到后台主页,路由地址是home
+
+我们使用window.sessionSorage.setItem 设置进客户端sessionStorage中,并且路由跳转到/home中
+是window的api所以是window开头
+window.sessionStorage.setItem('__token__', res.data.token)
+this.$router.push('/home')
+
+我们可以在浏览器的Application中可以看到sessionStorage有没有设置成功
+
+methods: {
+  // 表单预验证,可以提前知道表单是否符合我们规定规则的要求
+  login() {
+    this.$refs.loginForm.validate(async (valid, obj) => {
+      // 如果预验证失败,那么直接返回
+      if (!valid) {
+        return false
+      }
+      // 否则去axios.post 验证服务端有没有这个账号密码是否正确
+      // 因为this.$http.post()放回返回一个promise,其实就是axios返回一个promise,我们就可以使用await async来简化操作
+      // await this.$http.post('login', this.formLogin) 就是返回一个对象了
+      // await 只能使用在最近 async修饰的一个异步函数
+      // 我们通过返回的对象解构对象中data属性 并且赋值给res这个变量
+      const { data: res } = await this.$api.login.login(this.formLogin)
+      if (res.meta.status !== 200) {
+        return this.$message.error('登陆失败,请检查你的账号和密码是否正确')
+      }
+      if (res.meta.status === 200) {
+        this.$message.success('登陆成功,请稍等...')
+      }
+      // 1,将登陆成功之后的token,保存到客户端的sessionStorage(会话中,关掉就没了)中,(也可以存放到localStorage 持续化的,cookie)
+      //  1.1 项目中除了登陆接口以外的API接口,必须在登陆之后才能访问
+      //  1.2 token值应该在当前网站打开时候生效,所我们选择使用token保存在 sessionStorage中
+      // 2.通过编程式导航跳转到后台主页,路由地址是home
+      window.sessionStorage.setItem('__token__', res.data.token)
+      this.$router.push('/home')
+    })
+  },
+  // 重置整个表单
+  reset() {
+    this.$refs.loginForm.resetFields()
+  }
+}
+
+我们完成了登陆成功后,把token写进sessionStorage中,并且router跳转到home组件
+在router文件夹中的index.js构建路由守卫
+
+// 我们还有一个功能,就是路由导航守卫控制访问权限?
+// 例如说：　未登录状态我们不允许看到ｈｏｍｅ组件
+// 如果用户没有登陆,就是没有token,但是直接通过URL访问特定页面,需要重新导航到登陆页面
+// 前置守卫 跳转前出发这个路由事件
+
+
+router.beforeEach((to, form, next) => {
+  // 如果用户要去的是login界面,那么我们放行
+  if (to.path === '/login') return next()
+  // 将token存到token变量中
+  const token = window.sessionStorage.getItem('__token__')
+  // 如果token不存在,那我们跳转到login页面
+  if (!token) {
+    return next('/login')
+  }
+  // token存在我们直接放行
+  next()
+})
+
+路由这一块我实操的太少太少,.....网上有老的有旧的,....慢慢理解慢慢看吧
+
+我们使用官网的beforeEach用法
+
+// 版本二
+// 需要设置meta: { isLogin: true } 设置去往页面是否需要登陆状态, 需meta: { requiresAuth: true } 原理一样
+router.beforeEach((to, form, next) => {
+  // 我们拿到将要去的路由地址 to,我们使用 $route.matched可以获取
+  // 使用some方法,看看isLogin是否为true,如果是要登陆才能进入的页面
+  if (to.matched.some(res => res.meta.isLogin)) {
+    if (sessionStorage.__token__) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
+我们做退出功能,
+退出功能实现原理:
+	基于token的方式退出比较简单,只需要销毁本地的token即可,这样请求就不会携带token,必须重新生成一个新的token才能访问页面
+
+	// 清空token
+	window.sessionStorage.clear()
+
+	// 跳转到登陆页
+	this.$router.push('/login')
+
+我们在home.vue中
+
+<template>
+  <div class="home">
+    <el-button type="info" @click="back">退出</el-button>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'home',
+    methods: {
+      back() {
+        window.sessionStorage.clear()
+        this.$router.push({
+          path: '/login'
+        })
+      }
+    }
+  }
+</script>
+
+<style scoped lang="stylus">
+
+</style>
+
+有时候我们编写的代码
+例如: 
+export default {
+    name: "login",
+}
+
+报错,不能是双引号,得是单引号,但是格式化之后却还是双引号,怎么办?
+
